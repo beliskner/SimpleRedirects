@@ -5,8 +5,70 @@ app.requires.push('ngTable');
 * -----------------------------------------------------
 * Main Simple 301 controller used to render out the Simple 301 content section
 */
-angular.module("umbraco").controller("SimpleRedirectsController", function ($scope, $filter, SimpleRedirectsApi, ngTableParams) {
+angular.module("umbraco").controller("SimpleRedirectsController", function ($scope, $filter, listViewHelper, SimpleRedirectsApi, ngTableParams) {
 
+    let vm = this;
+    vm.items = [];
+    vm.options = {
+        orderBy: "lastUpdated",
+        reverseDirection: false,
+        bulkActionsAllowed: false,
+        includeProperties: [
+            { alias: "isRegex", header: "Regex", langKey: "regex", allowSorting: true },
+            { alias: "oldUrl", header: "Old URL", langKey: "oldUrl", allowSorting: true },
+            { alias: "newUrl", header: "New URL", langKey: "newUrl", allowSorting: true },
+            { alias: "redirectCode", header: "Type", langKey: "type", allowSorting: true },
+            { alias: "notes", header: "Notes", langKey: "notes", allowSorting: true },
+            { alias: "lastUpdated", header: "Last Updated", langKey: "lastUpdated", allowSorting: true },
+            { alias: "actions", header: "Actions", langKey: "actions", allowSorting: false }
+        ]
+    };
+    
+    vm.selectItem = selectItem;
+    vm.clickItem = clickItem;
+    vm.selectAll = selectAll;
+    vm.isSelectedAll = isSelectedAll;
+    vm.isSortDirection = isSortDirection;
+    vm.isNotOrderKey = isNotOrderKey;
+    vm.sort = sort;
+
+    function selectAll($event) {
+        alert("select all");
+    }
+
+    function isSelectedAll() {
+
+    }
+
+    function clickItem(item) {
+        alert("click node");
+    }
+
+    function selectItem(selectedItem, $index, $event) {
+        alert("select node");
+    }
+
+    function isSortDirection(col, reverse) {
+        return vm.options.orderBy === col && vm.options.reverseDirection === reverse;
+    }
+
+    function isNotOrderKey(col) {
+        return vm.options.orderBy !== col;
+    }
+
+    function sort(field, allow) {
+        if (allow) {
+            if (field === vm.options.orderBy) {
+                vm.options.reverseDirection = !vm.options.reverseDirection;
+            }
+            else {
+                vm.options.orderBy = field;
+                vm.options.reverseDirection = false;
+            }
+            vm.items = $filter('orderBy')(vm.items, vm.options.orderBy, vm.options.reverseDirection);
+        }
+    }
+    
     //Property to display error messages
     $scope.errorMessage = '';
     //App state
@@ -44,13 +106,16 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
     * Response handler for requesting all redirects
     */
     $scope.onRecieveAllRedirectsResponse = function (response) {
-        //Somethign went wrong. Error out
+        // Something went wrong. Error out
         if (!response || !response.data) {
             $scope.errorMessage = "Error fetching redirects from server";
             return;
         }
 
         //We received data. Continue
+        vm.items = response.data;
+        console.log(vm.items);
+        console.log(vm.options);
         $scope.redirects = response.data;
         $scope.refreshTable();
     }

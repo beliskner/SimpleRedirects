@@ -1,4 +1,15 @@
-/*! CSS Used from: https://localhost:44315/App_Plugins/SimpleRedirects/assets/styles/styles.min.css?d=637962680500000000 */
+#SimpleRedirects .umb-table-cell:first-of-type:not(.not-fixed) {
+    flex: 0 0 4rem;
+    justify-content: center;
+}
+
+#SimpleRedirects .umb-table-cell.redirectCode {
+    flex: 0 0 50px;
+    justify-content: center;
+}
+
+/*
+!*! CSS Used from: https://localhost:44315/App_Plugins/SimpleRedirects/assets/styles/styles.min.css?d=637962680500000000 *!
 #SimpleRedirects section {
     display: block;
 }
@@ -820,4 +831,4 @@
 
 #SimpleRedirects .p-20 {
     padding: 20px;
-}
+}*/

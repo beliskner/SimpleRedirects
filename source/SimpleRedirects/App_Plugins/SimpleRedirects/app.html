@@ -1,4 +1,93 @@
-<div id="SimpleRedirects" ng-controller="SimpleRedirectsController">
+<div id="SimpleRedirects" ng-controller="SimpleRedirectsController as vm">
+    <div class="umb-panel-group__details">
+        <div class="umb-panel-group__details-group">
+            <div class="umb-panel-group__details-group-title">
+                <div class="umb-panel-group__details-group-name ng-binding">
+                    <localize key="dashboardLabels_panelTitle">SimpleRedirects</localize>
+                </div>
+            </div>
+            <umb-box>
+                <umb-box-header
+                        title-key="dashboardLabels_boxTitle"
+                        description-key="dashboardLabels_boxSubTitle">
+                </umb-box-header>
+                <umb-box-content>
+                    <div class="umb-table">
+                        <div class="umb-table-head">
+                            <div class="umb-table-row">
+                                <div class="umb-table-cell {{prop.alias}}"
+                                     ng-repeat="prop in vm.options.includeProperties"
+                                     ng-click="sortBy(prop.alias, $event)">
+                                        <button type="button"
+                                                class="umb-table-head__link"
+                                                ng-click="vm.sort(prop.alias, prop.allowSorting)"
+                                                ng-class="{'sortable':prop.allowSorting}">
+                                            <localize key="tableHeaders_{{ prop.langKey }}">{{ prop.header }}</localize>
+                                            <i ng-if="prop.allowSorting" class="umb-table-head__icon icon" aria-hidden="true" ng-class="{'icon-navigation-vertical':vm.isNotOrderKey(prop.alias), 'icon-navigation-up': vm.isSortDirection(prop.alias, false), 'icon-navigation-down': vm.isSortDirection(prop.alias, true)}"></i>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="umb-table-body">
+                            <div class="umb-table-row umb-outline"
+                                 ng-repeat="item in vm.items track by $index">
+
+                                <div class="umb-table-cell">
+                                    <umb-icon icon="icon-{{ item.isRegex ? 'check' : 'delete' }}"></umb-icon>
+                                </div>
+
+                                <div class="umb-table-cell">
+                                    {{ item.oldUrl }}
+                                </div>
+
+                                <div class="umb-table-cell">
+                                    {{ item.newUrl }}
+                                </div>
+
+                                <div class="umb-table-cell redirectCode">
+                                    <umb-badge
+                                            size="s"
+                                            color="{{ item.redirectCode === 301 ? 'success' : 'warning' }}">
+                                        {{ item.redirectCode }}
+                                    </umb-badge>
+                                </div>
+
+                                <div class="umb-table-cell">
+                                    {{ item.notes }}
+                                </div>
+
+                                <div class="umb-table-cell">
+                                    {{ item.lastUpdated | date:'M/d/yy h:mm a' }}
+                                </div>
+
+                                <div class="umb-table-cell">
+                                    <umb-button
+                                            ng-if="!item.$edit"
+                                            ng-click="item.$edit = true"
+                                            button-style="primary"
+                                            icon="icon-edit">
+                                    </umb-button>
+                                    <umb-button
+                                            ng-if="item.$edit  && item.id != -1"
+                                            ng-click="updateRedirect(item)"
+                                            button-style="info"
+                                            icon="icon-sync">
+                                    </umb-button>
+                                    <umb-button
+                                            ng-if="item.id != -1"
+                                            ng-click="deleteRedirect(item)"
+                                            button-style="danger"
+                                            icon="icon-trash-alt">
+                                    </umb-button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </umb-box-content>
+            </umb-box>
+        </div>
+    </div>
     <div class="theme-deep-orange">
         <div autoscroll="true" bs-affix-target="" init-ripples="">
 
@@ -7,7 +96,7 @@
                 <!-- Header Content -->
                 <div class="page-header">
                     <h1>
-                        Simple Redirects Manager
+                        Simple Redirects Managerff
                     </h1>
 
                     <!-- Clear Cache -->
