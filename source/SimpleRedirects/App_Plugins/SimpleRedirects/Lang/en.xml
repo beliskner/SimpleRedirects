@@ -2,8 +2,12 @@
 <language alias="en" intName="English (UK)" localName="English (UK)" lcid="" culture="en-GB">
     <area alias="dashboardLabels">
         <key alias="panelTitle">SimpleRedirects</key>
-        <key alias="boxTitle">Simple Redirects Manager</key>
+        <key alias="boxTitle">SimpleRedirects Manager</key>
         <key alias="boxSubTitle">Add, Update, and Delete redirects in the table below.</key>
+        <key alias="searchPlaceholder">Search redirects</key>
+        <key alias="redirectSingular">Redirect</key>
+        <key alias="redirectMultiple">Redirects</key>
+        <key alias="foundFor">found for</key>
     </area>
     <area alias="tableHeaders">
         <key alias="regex">Regex</key>

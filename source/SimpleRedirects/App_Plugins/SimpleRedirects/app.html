@@ -10,6 +10,19 @@
                 <umb-box-header
                         title-key="dashboardLabels_boxTitle"
                         description-key="dashboardLabels_boxSubTitle">
+                    <div class="header-actions">
+                        <span>{{ vm.items.length }} redirect{{vm.items.length !== 1 ? "s" : ""}}{{vm.options.searchTerm.length > 0 ? " found for '" + vm.options.searchTerm + "'" : ""}}</span>
+                        <umb-search-filter
+                                model="vm.options.searchTerm"
+                                input-id="redirects-filter"
+                                label-key="dashboardLabels_searchPlaceholder"
+                                on-change="vm.search(vm.options.searchTerm)"
+                                on-back="vm.search('')"
+                                auto-focus="false"
+                                prevent-submit-on-enter="false"
+                                show-back-button="true">
+                        </umb-search-filter>
+                    </div>
                 </umb-box-header>
                 <umb-box-content>
                     <div class="umb-table">
@@ -36,11 +49,11 @@
                                     <umb-icon icon="icon-{{ item.isRegex ? 'check' : 'delete' }}"></umb-icon>
                                 </div>
 
-                                <div class="umb-table-cell">
+                                <div class="umb-table-cell redirect-url redirect-url-old">
                                     {{ item.oldUrl }}
                                 </div>
 
-                                <div class="umb-table-cell">
+                                <div class="umb-table-cell redirect-url redirect-url-new">
                                     {{ item.newUrl }}
                                 </div>
 
@@ -52,15 +65,15 @@
                                     </umb-badge>
                                 </div>
 
-                                <div class="umb-table-cell">
+                                <div class="umb-table-cell notes">
                                     {{ item.notes }}
                                 </div>
 
-                                <div class="umb-table-cell">
+                                <div class="umb-table-cell lastUpdated">
                                     {{ item.lastUpdated | date:'M/d/yy h:mm a' }}
                                 </div>
 
-                                <div class="umb-table-cell">
+                                <div class="umb-table-cell actions">
                                     <umb-button
                                             ng-if="!item.$edit"
                                             ng-click="item.$edit = true"

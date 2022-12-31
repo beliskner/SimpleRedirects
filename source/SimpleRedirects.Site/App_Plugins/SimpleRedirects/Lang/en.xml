@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <language alias="en" intName="English (UK)" localName="English (UK)" lcid="" culture="en-GB">
-    <area alias="dashboardTabs">
-        <key alias="redirectDashboard">Redirects</key>
+    <area alias="dashboardLabels">
+        <key alias="panelTitle">SimpleRedirects</key>
+        <key alias="boxTitle">SimpleRedirects Manager</key>
+        <key alias="boxSubTitle">Add, Update, and Delete redirects in the table below.</key>
+        <key alias="searchPlaceholder">Search redirects</key>
+        <key alias="redirectSingular">Redirect</key>
+        <key alias="redirectMultiple">Redirects</key>
+        <key alias="foundFor">found for</key>
+    </area>
+    <area alias="tableHeaders">
+        <key alias="regex">Regex</key>
+        <key alias="oldUrl">Old URL</key>
+        <key alias="newUrl">New URL</key>
+        <key alias="type">Type</key>
+        <key alias="notes">Notes</key>
+        <key alias="lastUpdated">Last updated</key>
+        <key alias="actions">Actions</key>
+    </area>
+    <area alias="redirectRow">
+        <key alias="NotesPlaceholder">Notes</key>
+        <key alias="oldUrlPlaceholder">Old URL</key>
+        <key alias="newUrlPlaceholder">New URL</key>
+        <key alias="permanentRedirectTypeOption">Permanent</key>
+        <key alias="temporaryRedirectTypeOption">Temporary</key>
+    </area>
+    <area alias="actions">
+        <key alias="clearCache">Clear Cache</key>
+        <key alias="search">Search redirects</key>
+        <key alias="addRedirect">Add</key>
+        <key alias="editRedirect">Edit</key>
+        <key alias="deleteRedirect">Delete</key>
+    </area>
+    <area alias="actionsFeedback">
+        <key alias="clearCacheSuccess">Cache cleared!</key>
     </area>
 </language>

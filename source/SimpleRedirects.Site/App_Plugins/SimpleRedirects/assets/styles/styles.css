@@ -1,4 +1,48 @@
-/*! CSS Used from: https://localhost:44315/App_Plugins/SimpleRedirects/assets/styles/styles.min.css?d=637962680500000000 */
+#SimpleRedirects .umb-table-cell:first-of-type:not(.not-fixed) {
+    flex: 0 0 4rem;
+    justify-content: center;
+}
+
+#SimpleRedirects .umb-table-cell {
+    padding: 8px;
+}
+
+#SimpleRedirects .umb-table-cell.redirectCode {
+    flex: 0 0 50px;
+    justify-content: center;
+}
+
+#SimpleRedirects .actions {
+    max-width: 111px;
+}
+
+#SimpleRedirects .actions .umb-button__icon {
+    margin: 0;
+}
+
+#SimpleRedirects .notes {
+    height: fit-content;
+    max-width: 150px;
+}
+
+#SimpleRedirects .lastUpdated {
+    max-width: 120px;
+}
+
+#SimpleRedirects .redirect-url {
+    text-decoration: underline;
+}
+
+#SimpleRedirects .redirect-url-old {
+    text-decoration-color: red;
+}
+
+#SimpleRedirects .redirect-url-new {
+    text-decoration-color: greenyellow;
+}
+
+/*
+!*! CSS Used from: https://localhost:44315/App_Plugins/SimpleRedirects/assets/styles/styles.min.css?d=637962680500000000 *!
 #SimpleRedirects section {
     display: block;
 }
@@ -820,4 +864,4 @@
 
 #SimpleRedirects .p-20 {
     padding: 20px;
-}
+}*/

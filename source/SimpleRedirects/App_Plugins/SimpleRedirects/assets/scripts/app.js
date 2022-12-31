@@ -8,11 +8,13 @@ app.requires.push('ngTable');
 angular.module("umbraco").controller("SimpleRedirectsController", function ($scope, $filter, listViewHelper, SimpleRedirectsApi, ngTableParams) {
 
     let vm = this;
+    vm.fullCollection = [];
     vm.items = [];
     vm.options = {
         orderBy: "lastUpdated",
-        reverseDirection: false,
+        reverseDirection: true,
         bulkActionsAllowed: false,
+        searchTerm: '',
         includeProperties: [
             { alias: "isRegex", header: "Regex", langKey: "regex", allowSorting: true },
             { alias: "oldUrl", header: "Old URL", langKey: "oldUrl", allowSorting: true },
@@ -24,29 +26,10 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
         ]
     };
     
-    vm.selectItem = selectItem;
-    vm.clickItem = clickItem;
-    vm.selectAll = selectAll;
-    vm.isSelectedAll = isSelectedAll;
     vm.isSortDirection = isSortDirection;
     vm.isNotOrderKey = isNotOrderKey;
     vm.sort = sort;
-
-    function selectAll($event) {
-        alert("select all");
-    }
-
-    function isSelectedAll() {
-
-    }
-
-    function clickItem(item) {
-        alert("click node");
-    }
-
-    function selectItem(selectedItem, $index, $event) {
-        alert("select node");
-    }
+    vm.search = search;
 
     function isSortDirection(col, reverse) {
         return vm.options.orderBy === col && vm.options.reverseDirection === reverse;
@@ -65,8 +48,14 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
                 vm.options.orderBy = field;
                 vm.options.reverseDirection = false;
             }
-            vm.items = $filter('orderBy')(vm.items, vm.options.orderBy, vm.options.reverseDirection);
         }
+        vm.items = $filter('orderBy')(vm.items, vm.options.orderBy, vm.options.reverseDirection);
+    }
+    
+    function search(input){
+        console.log(input);
+        vm.options.searchTerm = input;
+        vm.items = $filter('filter')(vm.fullCollection, vm.options.searchTerm);
     }
     
     //Property to display error messages
@@ -113,9 +102,8 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
         }
 
         //We received data. Continue
-        vm.items = response.data;
-        console.log(vm.items);
-        console.log(vm.options);
+        vm.fullCollection = response.data;
+        vm.items = vm.fullCollection;
         $scope.redirects = response.data;
         $scope.refreshTable();
     }
@@ -276,7 +264,8 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
         if (!$scope.initialLoad) {
             //Get the available log dates to view log entries for.
             $scope.fetchRedirects()
-                .then(function () { $scope.initialLoad = true; });
+                .then(function () { $scope.initialLoad = true; })
+                .then(vm.sort);
         }
     }
 

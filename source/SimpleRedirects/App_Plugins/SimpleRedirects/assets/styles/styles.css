@@ -3,9 +3,47 @@
     justify-content: center;
 }
 
+#SimpleRedirects .umb-table-cell {
+    padding: 8px;
+}
+
 #SimpleRedirects .umb-table-cell.redirectCode {
     flex: 0 0 50px;
     justify-content: center;
+}
+
+#SimpleRedirects .actions {
+    max-width: 111px;
+}
+
+#SimpleRedirects .actions .umb-button__icon {
+    margin: 0;
+}
+
+#SimpleRedirects .notes {
+    height: fit-content;
+    max-width: 150px;
+}
+
+#SimpleRedirects .lastUpdated {
+    max-width: 120px;
+}
+
+#SimpleRedirects .redirect-url {
+    text-decoration: underline;
+}
+
+#SimpleRedirects .redirect-url-old {
+    text-decoration-color: red;
+}
+
+#SimpleRedirects .redirect-url-new {
+    text-decoration-color: greenyellow;
+}
+
+#SimpleRedirects .header-actions {
+    display: flex;
+    align-items: center;
 }
 
 /*
