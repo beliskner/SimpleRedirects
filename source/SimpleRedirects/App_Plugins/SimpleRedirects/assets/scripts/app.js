@@ -5,7 +5,7 @@ app.requires.push('ngTable');
 * -----------------------------------------------------
 * Main Simple 301 controller used to render out the Simple 301 content section
 */
-angular.module("umbraco").controller("SimpleRedirectsController", function ($scope, $filter, SimpleRedirectsApi, ngTableParams) {
+angular.module("umbraco").controller("SimpleRedirectsController", function ($scope, $filter, SimpleRedirectsApi, ngTableParams, editorService) {
 
     //Property to display error messages
     $scope.errorMessage = '';
@@ -95,6 +95,28 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
     }
 
     /*
+    * Handles sending a redirect to the API to as a reference for
+    * updating the redirects collection server side.
+    */
+    $scope.openActionDialogue = function () {
+        const actionOverlay = {
+            title: `Import or export redirects`,
+            size: 'medium',
+            value: {
+                redirects: $scope.redirects.length
+            },
+            view: '/App_Plugins/SimpleRedirects/assets/dialog/import-export-overlay.html',
+            close: closeEditor
+        };
+        editorService.open(actionOverlay);
+    }
+
+    function closeEditor() {
+        // Close the open editor
+        editorService.close();
+    }
+
+    /*
     * Handler for receiving a response from the Update Redirect API call
     * Will update the table with the returned, updated redirect
     */
@@ -160,7 +182,7 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
     }
 
     /*
-    * Defines a new ngTable. 
+    * Defines a new ngTable.
     */
     $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
@@ -219,7 +241,7 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
         $scope.$tab = $('a:contains("Manage Redirects")');
 
         //If we have a tab, set the click handler so we only
-        //load the content on tab click. 
+        //load the content on tab click.
         if ($scope.$tab && $scope.$tab.length > 0) {
             var $parent = $scope.$tab.parent();
 
@@ -261,7 +283,6 @@ angular.module("umbraco.resources").factory("SimpleRedirectsApi", function ($htt
         remove: function (id) {
             return $http.delete("backoffice/SimpleRedirects/RedirectApi/Delete?id=" + id);
         },
-
         //Clear cache
         clearCache: function () {
             return $http.post("backoffice/SimpleRedirects/RedirectApi/ClearCache");

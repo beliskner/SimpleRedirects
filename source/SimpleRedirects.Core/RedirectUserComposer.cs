@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleRedirects.Core.Components;
 using SimpleRedirects.Core.Middleware;
 using SimpleRedirects.Core.Options;
+using SimpleRedirects.Core.Services.ImportExport;
 using SimpleRedirects.Core.Utilities.Caching;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
@@ -23,6 +24,10 @@ namespace SimpleRedirects.Core
 
             builder.Services.AddSingleton<RedirectRepository>();
             builder.Services.AddSingleton<ICacheManager, CacheManager>();
+
+            builder.Services.AddScoped<ImportExportFactory>();
+            builder.Services.AddScoped<CsvImportExportService>()
+                .AddScoped<IImportExportService, CsvImportExportService>(s => s.GetService<CsvImportExportService>());
 
             builder.Services.Configure<SimpleRedirectsOptions>(builder.Config.GetSection(
                 SimpleRedirectsOptions.Position));

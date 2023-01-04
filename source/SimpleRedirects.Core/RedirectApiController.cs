@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using SimpleRedirects.Core.Enums;
 using SimpleRedirects.Core.Models;
+using SimpleRedirects.Core.Services.ImportExport;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Cms.Web.Common.Attributes;
 
@@ -11,10 +13,12 @@ namespace SimpleRedirects.Core
     public class RedirectApiController : UmbracoAuthorizedApiController
     {
         private readonly RedirectRepository _redirectRepository;
+        private readonly ImportExportFactory _importExportFactory;
 
-        public RedirectApiController(RedirectRepository redirectRepository)
+        public RedirectApiController(RedirectRepository redirectRepository, ImportExportFactory importExportFactory)
         {
             _redirectRepository = redirectRepository;
+            _importExportFactory = importExportFactory;
         }
 
         /// <summary>
@@ -25,6 +29,29 @@ namespace SimpleRedirects.Core
         public IEnumerable<Redirect> GetAll()
         {
             return _redirectRepository.GetAllRedirects();
+        }
+
+        /// <summary>
+        /// POST a data record collection to import redirects
+        /// </summary>
+        /// <returns>Whether the import was successful or not and in case of success the amount of added, updated and deleted records</returns>
+        [HttpPost]
+        public ImportRedirectsResponse Import()
+        {
+            _redirectRepository.GetAllRedirects();
+            return null;
+        }
+
+        /// <summary>
+        /// GET all redirects as a data record collection, currently either CSV or Excel
+        /// </summary>
+        /// <returns>Whether the export was successful or not and in case of success a .csv or .xlsx file with all redirect records depending on chosen format</returns>
+        [HttpGet]
+        public ActionResult Export(DataRecordProvider dataRecordProvider)
+        {
+            var dataRecordCollectionFile = _importExportFactory.GetDataRecordProvider(dataRecordProvider).ExportDataRecordCollection();
+
+            return dataRecordCollectionFile.AsFileContentResult();
         }
 
         /// <summary>
@@ -47,7 +74,7 @@ namespace SimpleRedirects.Core
             {
                 return new AddRedirectResponse() { Success = false, Message = "There was an error adding the redirect : "+ e.Message };
             }
-            
+
         }
 
         /// <summary>

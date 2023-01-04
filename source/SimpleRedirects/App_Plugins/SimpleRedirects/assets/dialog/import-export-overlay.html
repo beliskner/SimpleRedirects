@@ -1,0 +1,26 @@
+﻿<div class="redirects-export-import" ng-controller="SimpleRedirects.ImportExportController as vm">
+    <umb-box>
+        <umb-box-header title="Export" description="Export redirects to a csv file"></umb-box-header>
+        <umb-box-content>
+            <input type="text" class="umb-textstring umb-property-editor" ng-model="model.settings.Notify.Pending" />
+            <umb-button
+                    action="vm.export()"
+                    type="button"
+                    button-style="action"
+                    state="vm.exportButtonState"
+                    label="Export to CSV"
+                    icon="icon-download-alt"
+                    disabled="vm.exportButtonState === 'busy'">
+            </umb-button>
+        </umb-box-content>
+    </umb-box>
+
+    <umb-box>
+        <umb-box-header title="Import" description="Import a csv file to add and optionally update redirects"></umb-box-header>
+        <umb-box-content>
+            <umb-file-dropzone>
+            </umb-file-dropzone>
+        </umb-box-content>
+    </umb-box>
+</div>
+
