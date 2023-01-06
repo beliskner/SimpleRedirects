@@ -36,9 +36,9 @@ namespace SimpleRedirects.Core
         /// </summary>
         /// <returns>Whether the import was successful or not and in case of success the amount of added, updated and deleted records</returns>
         [HttpPost]
-        public ImportRedirectsResponse Import()
+        public ImportRedirectsResponse Import(bool overwriteMatches)
         {
-            _redirectRepository.GetAllRedirects();
+            var file = HttpContext.Request.Form.Files[0];
             return null;
         }
 

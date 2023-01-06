@@ -237,7 +237,7 @@ namespace SimpleRedirects.Core
         /// </summary>
         /// <param name="oldUrl">OldUrl of redirect to find</param>
         /// <returns>Single redirect with matching OldUrl</returns>
-        private Redirect FetchRedirectByOldUrl(string oldUrl, bool fromCache = false)
+        public Redirect FetchRedirectByOldUrl(string oldUrl, bool fromCache = false)
         {
             oldUrl = CleanUrl(oldUrl);
             return fromCache

@@ -3,13 +3,27 @@
     display: block;
 }
 
+#SimpleRedirects .export-box {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+#SimpleRedirects .export-box-filename {
+    margin: 0!important;
+}
+
+#SimpleRedirects .export-box-button {
+    width: 250px!important;
+}
+
 #SimpleRedirects a {
     background-color: transparent;
 }
 
-    #SimpleRedirects a:active, #SimpleRedirects a:hover {
-        outline: 0;
-    }
+#SimpleRedirects a:active, #SimpleRedirects a:hover {
+    outline: 0;
+}
 
 #SimpleRedirects h1 {
     margin: .67em 0;

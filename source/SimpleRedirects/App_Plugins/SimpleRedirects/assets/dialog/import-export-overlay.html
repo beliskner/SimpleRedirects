@@ -1,10 +1,14 @@
 ﻿<div class="redirects-export-import" ng-controller="SimpleRedirects.ImportExportController as vm">
     <umb-box>
         <umb-box-header title="Export" description="Export redirects to a csv file"></umb-box-header>
-        <umb-box-content>
-            <input type="text" class="umb-textstring umb-property-editor" ng-model="model.settings.Notify.Pending" />
+        <umb-box-content class="export-box">
+            <!--            <input type="text" class="umb-textstring umb-property-editor export-box-filename" ng-model="vm.exportFileName.text" ng-pattern="vm.exportFileName.regex" placeholder="{{ vm.exportFileName.placeholder }}" />
+                        <div role="alert">
+                            <span class="error" ng-show="vm.exportFileName.regex">Filename is not valid!</span>
+                        </div>-->
             <umb-button
                     action="vm.export()"
+                    class="export-box-button"
                     type="button"
                     button-style="action"
                     state="vm.exportButtonState"
@@ -18,8 +22,15 @@
     <umb-box>
         <umb-box-header title="Import" description="Import a csv file to add and optionally update redirects"></umb-box-header>
         <umb-box-content>
-            <umb-file-dropzone>
-            </umb-file-dropzone>
+            <input type="file" ngf-select="handleFile($file)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.csv" class="form-control" />
+            <umb-button
+                    ng-if="vm.file !== null"
+                    action="vm.import"
+                    type="button"
+                    button-style="action"
+                    label="Import redirects"
+                    disabled="vm.exportButtonState === 'busy'">
+            </umb-button>
         </umb-box-content>
     </umb-box>
 </div>
