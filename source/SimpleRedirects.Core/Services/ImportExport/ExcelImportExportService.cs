@@ -4,17 +4,18 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
+using CsvHelper.Excel;
 using Microsoft.AspNetCore.Http;
 using SimpleRedirects.Core.Enums;
 using SimpleRedirects.Core.Models;
 
 namespace SimpleRedirects.Core.Services.ImportExport;
 
-public class CsvImportExportService : IImportExportService
+public class ExcelImportExportService : IImportExportService
 {
     private readonly RedirectRepository _redirectRepository;
 
-    public CsvImportExportService(RedirectRepository redirectRepository)
+    public ExcelImportExportService(RedirectRepository redirectRepository)
     {
         _redirectRepository = redirectRepository;
     }
@@ -23,26 +24,26 @@ public class CsvImportExportService : IImportExportService
     {
         var records = _redirectRepository.GetAllRedirects();
         using var memoryStream = new MemoryStream();
-        using var streamWriter = new StreamWriter(memoryStream);
-        using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
-        csvWriter.Context.RegisterClassMap<RedirectMap>();
-        csvWriter.WriteHeader<Redirect>();
-        csvWriter.NextRecord();
-        csvWriter.WriteRecords(records);
-        csvWriter.Flush();
-        streamWriter.Flush();
-        memoryStream.Position = 0;
+        using (var excelWriter = new ExcelWriter(memoryStream, "Redirect list", CultureInfo.InvariantCulture))
+        {
+            excelWriter.Context.RegisterClassMap<RedirectMap>();
+            excelWriter.WriteHeader<Redirect>();
+            excelWriter.NextRecord();
+            excelWriter.WriteRecords(records);
+        }
 
-        return new DataRecordCollectionFile(DataRecordProvider.Csv, memoryStream.ToArray());
+        return new DataRecordCollectionFile(DataRecordProvider.Excel, memoryStream.ToArray());
     }
 
     public ImportRedirectsResponse ImportRedirectsFromCollection(IFormFile file, bool overwriteMatches)
     {
-        using var reader = new StreamReader(file.OpenReadStream());
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        csv.Context.RegisterClassMap<RedirectMap>();
-        var records = csv.GetRecords<Redirect>().ToArray();
-
+        if (file.Length <= 0) return ImportRedirectsResponse.EmptyImportRecordResponse();
+        using var memoryStream = new MemoryStream();
+        file.CopyTo(memoryStream);
+        using var excelParser = new ExcelParser(memoryStream, CultureInfo.InvariantCulture);
+        using var csvReader = new CsvReader(excelParser);
+        csvReader.Context.RegisterClassMap<RedirectMap>();
+        var records = csvReader.GetRecords<Redirect>().ToArray();
         if (!records.Any()) return ImportRedirectsResponse.EmptyImportRecordResponse();
         var addedRedirects = 0;
         var updatedRedirects = 0;

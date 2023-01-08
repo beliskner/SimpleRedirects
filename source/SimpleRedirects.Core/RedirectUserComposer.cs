@@ -28,6 +28,8 @@ namespace SimpleRedirects.Core
             builder.Services.AddScoped<ImportExportFactory>();
             builder.Services.AddScoped<CsvImportExportService>()
                 .AddScoped<IImportExportService, CsvImportExportService>(s => s.GetService<CsvImportExportService>());
+            builder.Services.AddScoped<ExcelImportExportService>()
+                .AddScoped<IImportExportService, ExcelImportExportService>(s => s.GetService<ExcelImportExportService>());
 
             builder.Services.Configure<SimpleRedirectsOptions>(builder.Config.GetSection(
                 SimpleRedirectsOptions.Position));

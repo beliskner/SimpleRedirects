@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
@@ -81,5 +81,20 @@ namespace SimpleRedirects.Core.Models
                 return NewUrl;
             }
         }
+        
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(this, obj)) return true;
+            if (ReferenceEquals(obj, null)) return false;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Redirect)obj);
+        }
+
+        protected bool Equals(Redirect otherRedirect)
+            => IsRegex == otherRedirect.IsRegex &&
+                   string.Equals(OldUrl, otherRedirect.OldUrl) &&
+                   string.Equals(NewUrl, otherRedirect.NewUrl) &&
+                   RedirectCode == otherRedirect.RedirectCode &&
+                   string.Equals(Notes, otherRedirect.Notes);
     }
 }

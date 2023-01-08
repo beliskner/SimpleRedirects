@@ -11,7 +11,7 @@ public class DataRecordCollectionFile
     public byte[] File { get; set; }
     public string ContentType => DataRecordProvider == DataRecordProvider.Csv ? "text/csv" : "application/vnd.ms-excel";
     public string FileExtension => DataRecordProvider == DataRecordProvider.Csv ? ".csv" : ".xlsx";
-    public string FileName => $"SimpleRedirects-Export-{DateTimeOffset.Now.ToString("dd-M-yyyy", CultureInfo.InvariantCulture)}{FileExtension}";
+    public string FileName => $"SimpleRedirects-{DataRecordProvider}-Export-{DateTimeOffset.Now.ToString("dd-M-yyyy", CultureInfo.InvariantCulture)}{FileExtension}";
 
     public DataRecordCollectionFile(DataRecordProvider dataRecordProvider, byte[] file)
     {

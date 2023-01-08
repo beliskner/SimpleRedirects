@@ -103,17 +103,18 @@ angular.module("umbraco").controller("SimpleRedirectsController", function ($sco
             title: `Import or export redirects`,
             size: 'medium',
             value: {
-                redirects: $scope.redirects.length
+                redirects: $scope.redirects.length,
+                parent: $scope
             },
-            view: '/App_Plugins/SimpleRedirects/assets/dialog/import-export-overlay.html',
-            close: closeEditor
+            view: '/App_Plugins/SimpleRedirects/assets/dialog/import-export-overlay.html'
         };
         editorService.open(actionOverlay);
     }
-
-    function closeEditor() {
-        // Close the open editor
+    
+    $scope.close = function(){
         editorService.close();
+        $scope.initialLoad = false;
+        $scope.initLoad();
     }
 
     /*

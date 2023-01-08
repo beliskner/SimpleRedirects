@@ -3,18 +3,40 @@
     display: block;
 }
 
-#SimpleRedirects .export-box {
+.export-box {
     display: flex;
     align-items: center;
     flex-direction: row;
 }
 
-#SimpleRedirects .export-box-filename {
-    margin: 0!important;
+.export-box:not(:last-child) {
+    margin-right: 16px;
 }
 
-#SimpleRedirects .export-box-button {
-    width: 250px!important;
+.file-actions {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.import-response {
+    margin-top: 8px;
+}
+
+.import-response-error-list {
+    margin-top: 8px;
+}
+
+.file-action:not(:last-child) {
+    margin-right: 8px;
+}
+
+.export-box-filename {
+    margin: 0;
+}
+
+.export-box-button {
+    width: 250px;
 }
 
 #SimpleRedirects a {

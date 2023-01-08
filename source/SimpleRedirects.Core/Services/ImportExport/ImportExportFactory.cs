@@ -13,9 +13,7 @@ public class ImportExportFactory
     }
 
     public IImportExportService GetDataRecordProvider(DataRecordProvider dataRecordProvider)
-        => (IImportExportService)_serviceProvider.GetService(typeof(CsvImportExportService));
-        // ExcelImportExportService disabled until free alternative for EPPlus is used
-        /*=> dataRecordProvider == DataRecordProvider.Csv
+        => dataRecordProvider == DataRecordProvider.Csv
             ? (IImportExportService)_serviceProvider.GetService(typeof(CsvImportExportService))
-            : (IImportExportService)_serviceProvider.GetService(typeof(ExcelImportExportService));*/
+            : (IImportExportService)_serviceProvider.GetService(typeof(ExcelImportExportService));
 }

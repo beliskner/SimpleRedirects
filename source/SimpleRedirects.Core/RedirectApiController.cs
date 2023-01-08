@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SimpleRedirects.Core.Enums;
+using SimpleRedirects.Core.Extensions;
 using SimpleRedirects.Core.Models;
 using SimpleRedirects.Core.Services.ImportExport;
 using Umbraco.Cms.Web.BackOffice.Controllers;
@@ -38,8 +40,14 @@ namespace SimpleRedirects.Core
         [HttpPost]
         public ImportRedirectsResponse Import(bool overwriteMatches)
         {
-            var file = HttpContext.Request.Form.Files[0];
-            return null;
+            var file = HttpContext.Request.Form.Files.Any() ? HttpContext.Request.Form.Files[0] : null;
+            if (file is null) return ImportRedirectsResponse.EmptyImportRecordResponse();
+
+            if (!file.CanGetDataRecordProviderFromFile(out var provider))
+                return ImportRedirectsResponse.EmptyImportRecordResponse("No redirects imported, provided file is not supported by the import process. Please provide a .csv or .xlsx file.");
+
+            var response = _importExportFactory.GetDataRecordProvider(provider).ImportRedirectsFromCollection(file, overwriteMatches);
+            return response;
         }
 
         /// <summary>
